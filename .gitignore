@@ -1,0 +1,5 @@
+.RData
+debug.log
+.Rhistory
+.RProj.user/*
+*.xlsx

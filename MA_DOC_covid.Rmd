@@ -1,0 +1,130 @@
+---
+title: "Mass DOC COVID-19 Numbers"
+author: "Daniel P. Scarnecchia"
+date: "11/1/2020"
+output:
+  html_document:
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+library(fs)
+setwd(path("D:", "Github", "MDOC_COVID"))
+source(path("inputfiles","common.R"))
+
+prison_names = read_csv(path("inputfiles", "inst_name_lkp.csv"))
+#sjc_googledrive_url <- "https://docs.google.com/spreadsheets/d/1nmZ84rjOxQgdTL0PdV7SrbyDTbD7nROQ/export#gid=1419540291"
+
+#GET(sjc_googledrive_url, write_disk(tf <- file_temp(tmp_dir = path("D:", "Github", "MDOC_COVID"), ext = ".xlsx")))
+tf <- path("D:", "Github", "MDOC_COVID", "filea3743b8d61b7.xlsx")
+
+sjc_DOC_df <- read_excel(tf, sheet=2) %>%
+  mutate(Date = as.Date(Date)) %>% 
+  mutate(across(where(is.character), ~na_if(., 'NA'))) %>% 
+  rename(fac = `DOC Facility`,
+         total_population = `Total Population`,
+         all_positive = `Total Positive`,
+         all_tested = `Total Tested`,
+         all_released = `N Released`,
+         staff_positive = `N Positive - Staff`,
+         staff_tested = `N Tested - Staff`,
+         inmates_positive =  `N Positive - Detainees/Inmates`,
+         inmates_tested = `N Tested - Detainees/Inmates`,
+         deaths = `N Deaths`) %>%
+  select(-Notes, -`Active Prisoner Cases`, all_released) %>% 
+  mutate(across(3:11, ~as.numeric(.))) %>% 
+  mutate(fac = factor(fac, levels = unique(fac)))
+
+sjc_DOC_cum <- sjc_DOC_df %>%
+  select(-total_population, -all_released, -all_tested, -all_positive) %>% 
+  filter(!fac=="Non-Facility") %>% 
+  group_by(fac) %>% 
+  summarise(across(where(is.numeric), sum, na.rm=TRUE)) %>% 
+  mutate(inmates_positive_rate = inmates_positive/inmates_tested, inmates_positive_rate=scales::percent(inmates_positive_rate)) %>% 
+  mutate(staff_positive_rate = staff_positive/staff_tested, staff_positive_rate = scales::percent(staff_positive_rate)) %>% 
+  full_join(prison_names, by="fac") %>% 
+  select(name_link, inmates_tested, inmates_positive, inmates_positive_rate, staff_tested, staff_positive, staff_positive_rate, deaths)
+
+inst_month <- function(df, x){
+  total_pop = df %>% 
+    select(Date, fac, total_population) %>% 
+    filter(fac==x) %>% 
+    group_by(Date) %>% 
+    mutate(Date = floor_date(ymd(Date), 'month')) %>%
+    summarise(total_population = last(total_population)) %>% 
+    select(total_population, Date) %>% 
+    ungroup()
+  
+  output = df %>% 
+    select(-total_population, -all_released, -all_tested, -all_positive) %>% 
+    filter(fac==x) %>% 
+    mutate(Date = floor_date(ymd(Date), 'month')) %>% 
+    group_by(Date) %>% 
+    summarise(across(where(is.numeric), sum, na.rm=TRUE)) %>% 
+    full_join(total_pop, by="Date") %>% 
+    mutate(inmates_positive_rate = inmates_positive/inmates_tested, inmates_positive_rate=scales::percent(inmates_positive_rate)) %>% 
+    mutate(staff_positive_rate = staff_positive/staff_tested, staff_positive_rate = scales::percent(staff_positive_rate)) %>% 
+    mutate(cases_per_100k = (inmates_positive / total_population) * 100000) %>% 
+    select(Date, total_population, inmates_tested, inmates_positive, cases_per_100k, inmates_positive_rate, staff_tested, 
+           staff_positive, staff_positive_rate, deaths) %>% 
+    mutate(Date = as.yearmon(Date))
+  return(output)
+}
+```
+
+## Cases
+```{r, mass_doc, results='asis',echo=FALSE}
+knitr::kable(
+sjc_DOC_cum %>% 
+  rename(facility = name_link),
+caption=sprintf("COVID-19 cases among DOC prisoners and staff as of %s", today()),
+           col.names = c("Facility","Inmates Tested", "Positive Tests (Inmates)", "Positive Test Rate (Inmates)", 
+                         "Staff Tested", "Positive Tests (Staff)","Positive Rate (Staff)", "Deaths")
+)
+```
+
+## Cases by Institution, by Month
+### MASAC
+```{r, masac, results='asis',echo=FALSE, message=FALSE, warning=FALSE}
+knitr::kable(
+inst_month(sjc_DOC_df, "MASAC"),
+           col.names = c("Date","Total Population","Inmates Tested", "Positive Tests (Inmates)", "Cases per 100000 (Inmates)", "Positive Test Rate (Inmates)", 
+                         "Staff Tested", "Positive Tests (Staff)","Positive Rate (Staff)", "Deaths")
+)
+```
+
+### Boston Pre
+```{r, Boston Pre, results='asis',echo=FALSE, message=FALSE, warning=FALSE}
+knitr::kable(
+inst_month(sjc_DOC_df, "Boston Pre"),
+           col.names = c("Date", "Total Population","Inmates Tested", "Positive Tests (Inmates)", "Cases per 100000 (Inmates)", "Positive Test Rate (Inmates)", 
+                         "Staff Tested", "Positive Tests (Staff)","Positive Rate (Staff)", "Deaths")
+)
+```
+
+### MCI Norfolk
+```{r, MCI-Norfolk, results='asis',echo=FALSE, message=FALSE, warning=FALSE}
+knitr::kable(
+inst_month(sjc_DOC_df, "MCI-Norfolk"),
+           col.names = c("Date","Total Population","Inmates Tested", "Positive Tests (Inmates)", "Cases per 100000 (Inmates)", "Positive Test Rate (Inmates)", 
+                         "Staff Tested", "Positive Tests (Staff)","Positive Rate (Staff)", "Deaths")
+)
+```
+
+### MCI Shirley 
+```{r, MCI-Shirley, results='asis',echo=FALSE, message=FALSE, warning=FALSE}
+knitr::kable(
+inst_month(sjc_DOC_df, "MCI-Shirley"),
+           col.names = c("Date","Total Population","Inmates Tested", "Positive Tests (Inmates)", "Cases per 100000 (Inmates)", "Positive Test Rate (Inmates)", 
+                         "Staff Tested", "Positive Tests (Staff)","Positive Rate (Staff)", "Deaths")
+)
+```
+
+### MCI Framingham
+```{r, MCI-F, results='asis',echo=FALSE, message=FALSE, warning=FALSE}
+knitr::kable(
+inst_month(sjc_DOC_df, "MCI-F"),
+           col.names = c("Date","Total Population","Inmates Tested", "Positive Tests (Inmates)", "Cases per 100000 (Inmates)", "Positive Test Rate (Inmates)", 
+                         "Staff Tested", "Positive Tests (Staff)","Positive Rate (Staff)", "Deaths")
+)
+```
