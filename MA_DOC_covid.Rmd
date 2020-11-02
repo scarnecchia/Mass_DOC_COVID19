@@ -13,10 +13,10 @@ setwd(path("D:", "Github", "MDOC_COVID"))
 source(path("inputfiles","common.R"))
 
 prison_names = read_csv(path("inputfiles", "inst_name_lkp.csv"))
-#sjc_googledrive_url <- "https://docs.google.com/spreadsheets/d/1nmZ84rjOxQgdTL0PdV7SrbyDTbD7nROQ/export#gid=1419540291"
+sjc_googledrive_url <- "https://docs.google.com/spreadsheets/d/1nmZ84rjOxQgdTL0PdV7SrbyDTbD7nROQ/export#gid=1419540291"
 
-#GET(sjc_googledrive_url, write_disk(tf <- file_temp(tmp_dir = path("D:", "Github", "MDOC_COVID"), ext = ".xlsx")))
-tf <- path("D:", "Github", "MDOC_COVID", "filea3743b8d61b7.xlsx")
+GET(sjc_googledrive_url, write_disk(tf <- file_temp(tmp_dir = path("D:", "Github", "MDOC_COVID"), ext = ".xlsx")))
+# tf <- path("D:", "Github", "MDOC_COVID", "filea3743b8d61b7.xlsx")
 
 sjc_DOC_df <- read_excel(tf, sheet=2) %>%
   mutate(Date = as.Date(Date)) %>% 

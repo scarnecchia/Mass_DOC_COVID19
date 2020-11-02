@@ -8,8 +8,6 @@ sjc_googledrive_url <- "https://docs.google.com/spreadsheets/d/1nmZ84rjOxQgdTL0P
 
 GET(sjc_googledrive_url, write_disk(tf <- file_temp(tmp_dir = path("D:", "Github", "MDOC_COVID"), ext = ".xlsx")))
 
-
-
 sjc_DOC_df <- read_excel(tf, sheet=2) %>%
   mutate(Date = as.Date(Date)) %>% 
   mutate(across(where(is.character), ~na_if(., 'NA'))) %>% 
@@ -63,16 +61,3 @@ inst_month <- function(df, x){
     mutate(Date = as.yearmon(Date))
   return(output)
 }
-
-
-mcic = sjc_DOC_df %>% 
-  select(-total_population, -all_released, -all_tested, -all_positive) %>% 
-  filter(fac=="MCI-C") %>% 
-  mutate(Date = floor_date(ymd(Date), 'month')) %>% 
-  group_by(Date,fac) %>% 
-  summarise(across(where(is.numeric), sum, na.rm=TRUE)) %>% 
-  mutate(inmates_positive_rate = inmates_positive/inmates_tested, inmates_positive_rate=scales::percent(inmates_positive_rate)) %>% 
-  mutate(staff_positive_rate = staff_positive/staff_tested, staff_positive_rate = scales::percent(staff_positive_rate)) %>% 
-  inner_join(prison_names, by="fac") %>% 
-  select(name_link, inmates_tested, inmates_positive, inmates_positive_rate, staff_tested, staff_positive, staff_positive_rate, deaths)
-  
