@@ -17,5 +17,8 @@ library(gridExtra)
 library(httr)
 library(tidyverse)
 library(zoo)
+library(pander)
+
+panderOptions("table.split.table", Inf) 
 
 current_date = today()
