@@ -8,12 +8,12 @@ fetch_doc_data <- function(data_url) {
   }
 
 clean_doc_data <- function(x) {
-  # if ("x" %in% ls(envir = .GlobalEnv)) {
-  #   get("x", envir = .GlobalEnv)
-  # } else {
-  #   "x" = fetch_doc_data(data_url)
-  # }
-  
+  if ("x" %in% ls(envir = .GlobalEnv)) {
+    get("x", envir = .GlobalEnv)
+  } else {
+    "x" = fetch_doc_data(data_url)
+  }
+
   df <- read_excel(x, sheet=2) %>%
     mutate(Date = as.Date(Date)) %>% 
     mutate(across(where(is.character), ~na_if(., 'NA'))) %>% 
@@ -52,7 +52,7 @@ return(df)
 mass_doc_inst_month <- function(x) {
   total_pop = clean_doc_data(x) %>% 
     select(Date, fac, total_population) %>% 
-    filter(fac==facility) %>% 
+    filter(fac==fac) %>% 
     group_by(Date) %>% 
     mutate(Date = floor_date(ymd(Date), 'month')) %>%
     summarise(total_population = last(total_population)) %>% 
@@ -61,7 +61,7 @@ mass_doc_inst_month <- function(x) {
   
   output = clean_doc_data(x) %>% 
     select(-total_population, -all_released, -all_tested, -all_positive) %>% 
-    filter(fac==facility) %>% 
+    filter(fac==fac) %>% 
     mutate(Date = floor_date(ymd(Date), 'month')) %>% 
     group_by(Date) %>% 
     summarise(across(where(is.numeric), sum, na.rm=TRUE)) %>% 
