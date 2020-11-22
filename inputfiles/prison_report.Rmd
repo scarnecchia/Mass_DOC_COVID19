@@ -1,0 +1,33 @@
+---
+title: "`r sprintf('Mass %s COVID-19 Numbers', params$variable_1)`"
+date: "`r today()`"
+params:
+  fac: "fac"
+output:
+  html_document:
+    keep_md: true
+---
+```{r echo=FALSE, warning=FALSE, message = FALSE}
+library(fs)
+setwd(path("D:", "Github", "MDOC_COVID"))
+
+# Source Packages and Functions ---------------------------------------------------------
+source(path("inputfiles","common.R"))
+source(path("inputfiles", "functions.R"))
+
+# Lookup tables and globals -------------------------------------------------------------
+prison_names = read_csv(path("inputfiles", "inst_name_lkp.csv"))
+data_url <- "https://docs.google.com/spreadsheets/d/1nmZ84rjOxQgdTL0PdV7SrbyDTbD7nROQ/export#gid=1419540291"
+tf = fetch_doc_data(data_url)
+```
+
+```{r, mass_doc, results='asis', echo=FALSE, warning=FALSE, message = FALSE}
+knitr::kable(
+mass_doc_inst_month_2() %>%
+  filter(fac == params$fac),
+caption=sprintf("COVID-19 cases among %s prisoners and staff as of %s<ref>[https://data.aclum.org/sjc-12926-tracker/ ACLU Tracking COVID-19 in Massachusetts Prison & Jails Webpage]</ref>", params$fac, current_date),
+col.names = c("Abbreviation","Facility","Month", "Facility Population", "Tests (Inmates)", "Positive Tests (Inmates)", 
+              "Cases Per 100000 (Inmates)","Positive Test Rate (Inmates)", "Staff Tested", 
+              "Positive Tests (Staff)", "Positive Rate (Staff)", "Deaths")
+)
+```

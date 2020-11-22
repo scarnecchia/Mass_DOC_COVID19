@@ -18,6 +18,7 @@ library(httr)
 library(tidyverse)
 library(zoo)
 library(pander)
+library(reprex)
 
 panderOptions("table.split.table", Inf) 
 
