@@ -4,8 +4,8 @@ date: "`r today()`"
 params:
   fac: "fac"
 output:
-  html_document:
-    keep_md: true
+  md_document:
+    variant: markdown
 ---
 ```{r echo=FALSE, warning=FALSE, message = FALSE}
 library(fs)

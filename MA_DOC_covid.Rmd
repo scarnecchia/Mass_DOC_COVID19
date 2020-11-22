@@ -3,8 +3,8 @@ title: "Mass DOC COVID-19 Numbers"
 author: "Daniel P. Scarnecchia"
 date: "`current_date`"
 output:
-  html_document:
-    keep_md: true
+  md_document:
+    variant: markdown
 ---
 
 ```{r setup, include=FALSE}
