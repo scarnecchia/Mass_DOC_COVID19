@@ -1,0 +1,102 @@
+{|class=wikitable
+|+ COVID-19 cases among prisoners and staff as of 2020-11-22<ref>[https://data.aclum.org/sjc-12926-tracker/ ACLU Tracking COVID-19 in Massachusetts Prison &amp; Jails Webpage]</ref>
+!width="4%"| Month
+!align="right" width="10%"| Facility Population
+!align="right" width="8%"| Tests (Inmates)
+!align="right" width="13%"| Positive Tests (Inmates)
+!align="right" width="14%"| Cases Per 100000 (Inmates)
+!align="right" width="15%"| Positive Test Rate (Inmates)
+!align="right" width="6%"| Staff Tested
+!align="right" width="12%"| Positive Tests (Staff)
+!align="right" width="11%"| Positive Rate (Staff)
+!align="right" width="3%"| Deaths
+|-
+| Apr 2020
+|align="right"| 1270
+|align="right"| 250
+|align="right"| 125
+|align="right"| 9842.5197
+|align="right"| 50.0%
+|align="right"| 115
+|align="right"| 20
+|align="right"| 17.4%
+|align="right"| 0
+|-
+| May 2020
+|align="right"| 1219
+|align="right"| 1016
+|align="right"| 37
+|align="right"| 3035.2748
+|align="right"| 3.6%
+|align="right"| 14
+|align="right"| 1
+|align="right"| 7.1%
+|align="right"| 0
+|-
+| Jun 2020
+|align="right"| 1145
+|align="right"| 49
+|align="right"| 7
+|align="right"| 611.3537
+|align="right"| 14.3%
+|align="right"| 0
+|align="right"| 0
+|align="right"| **
+|align="right"| 0
+|-
+| Jul 2020
+|align="right"| 1117
+|align="right"| 76
+|align="right"| 0
+|align="right"| 0.0000
+|align="right"| 0.0%
+|align="right"| 0
+|align="right"| 0
+|align="right"| **
+|align="right"| 3
+|-
+| Aug 2020
+|align="right"| 1117
+|align="right"| 6
+|align="right"| 0
+|align="right"| 0.0000
+|align="right"| 0.0%
+|align="right"| 1
+|align="right"| 0
+|align="right"| 0.0%
+|align="right"| 0
+|-
+| Sep 2020
+|align="right"| 1100
+|align="right"| 0
+|align="right"| 0
+|align="right"| 0.0000
+|align="right"| **
+|align="right"| 12
+|align="right"| 0
+|align="right"| 0.0%
+|align="right"| 0
+|-
+| Oct 2020
+|align="right"| 1092
+|align="right"| 87
+|align="right"| 0
+|align="right"| 0.0000
+|align="right"| 0.0%
+|align="right"| 0
+|align="right"| 1
+|align="right"| **
+|align="right"| 0
+|-
+| Nov 2020
+|align="right"| 1095
+|align="right"| 1293
+|align="right"| 104
+|align="right"| 9497.7169
+|align="right"| 8.0%
+|align="right"| 0
+|align="right"| 14
+|align="right"| **
+|align="right"| 0
+|}
+

@@ -1,5 +1,4 @@
 # Functions -----------------------------------------------------------------------------
-# Load Custom Functions
 
 # Fetch and Clean DOC data --------------------------------------------------------------
 fetch_doc_data <- function(data_url) {
@@ -52,34 +51,40 @@ return(df)
 }
 
 # Get Monthly Cases by Institution ------------------------------------------------------
-mass_doc_inst_month <- function(x) {
-  total_pop = clean_doc_data(tf) %>% 
-    select(Date, fac, total_population) %>% 
-    drop_na(total_population) %>% 
-    filter(fac==fac) %>% 
-    group_by(Date) %>% 
+mass_doc_inst_month <- function() {
+  iter_mass_doc <- function(x) {
+  total_pop = clean_doc_data(tf) %>%
+    select(Date, fac, total_population) %>%
+    drop_na(total_population) %>%
+    filter(fac==x) %>%
+    group_by(Date) %>%
     mutate(Date = floor_date(ymd(Date), 'month')) %>%
-    summarise(total_population = last(total_population)) %>% 
-    select(total_population, Date) %>% 
+    summarise(total_population = last(total_population)) %>%
+    select(total_population, Date) %>%
     ungroup()
-  
-  output = clean_doc_data(tf) %>% 
-    select(-total_population, -all_released, -all_tested, -all_positive) %>% 
-    filter(fac==fac) %>% 
-    mutate(Date = floor_date(ymd(Date), 'month')) %>% 
-    mutate(across(where(is.numeric), ~replace_na(., 0))) %>% 
-    group_by(Date) %>% 
-    summarise(across(where(is.numeric), sum, na.rm = TRUE)) %>% 
-    full_join(total_pop, by="Date") %>% 
-    mutate(inmates_positive_rate = inmates_positive/inmates_tested, inmates_positive_rate=scales::percent(inmates_positive_rate)) %>% 
-    mutate(staff_positive_rate = staff_positive/staff_tested, staff_positive_rate = scales::percent(staff_positive_rate)) %>% 
-    mutate(cases_per_100k = (inmates_positive / total_population) * 100000) %>% 
-    select(Date, total_population, inmates_tested, inmates_positive, cases_per_100k, inmates_positive_rate, staff_tested, 
-           staff_positive, staff_positive_rate, deaths) %>% 
+
+  output = clean_doc_data(tf) %>%
+    select(-total_population, -all_released, -all_tested, -all_positive) %>%
+    filter(fac==x) %>%
+    mutate(Date = floor_date(ymd(Date), 'month')) %>%
+    mutate(across(where(is.numeric), ~replace_na(., 0))) %>%
+    group_by(Date) %>%
+    summarise(across(where(is.numeric), sum, na.rm = TRUE)) %>%
+    full_join(total_pop, by="Date") %>%
+    mutate(inmates_positive_rate = inmates_positive/inmates_tested, inmates_positive_rate=scales::percent(inmates_positive_rate)) %>%
+    mutate(staff_positive_rate = staff_positive/staff_tested, staff_positive_rate = scales::percent(staff_positive_rate)) %>%
+    mutate(cases_per_100k = (inmates_positive / total_population) * 100000) %>%
+    select(Date, total_population, inmates_tested, inmates_positive, cases_per_100k, inmates_positive_rate, staff_tested,
+           staff_positive, staff_positive_rate, deaths) %>%
     mutate(Date = as.yearmon(Date))
+    }
   
-  return(output)
-}
+  data <- prison_names %>%
+  pull(fac) %>%
+  purrr::set_names() %>%
+  map(iter_mass_doc)
+  return(data)  
+  }
 
 mass_doc_inst_month_2 <- function() {
   total_pop <- clean_doc_data(tf) %>% 
@@ -93,7 +98,6 @@ mass_doc_inst_month_2 <- function() {
   
   data <- clean_doc_data(tf) %>% 
     select(-total_population, -all_released, -all_tested, -all_positive) %>% 
-    # filter(fac==fac) %>% 
     mutate(Date = floor_date(ymd(Date), 'month')) %>% 
     mutate(across(where(is.numeric), ~replace_na(., 0))) %>% 
     group_by(fac, Date) %>% 
@@ -107,7 +111,8 @@ mass_doc_inst_month_2 <- function() {
     mutate(Date = as.yearmon(Date)) %>% 
     full_join(prison_names, by="fac") %>% 
     select(fac, name_link, Date, total_population, inmates_tested, inmates_positive, cases_per_100k, inmates_positive_rate, 
-           staff_tested, staff_positive, staff_positive_rate, deaths)
+           staff_tested, staff_positive, staff_positive_rate, deaths) %>% 
+    na_if("Inf")
 }
 
 render_report <- function(fac) {

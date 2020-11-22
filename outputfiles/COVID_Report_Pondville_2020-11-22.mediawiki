@@ -1,0 +1,102 @@
+{|class=wikitable
+|+ COVID-19 cases among prisoners and staff as of 2020-11-22<ref>[https://data.aclum.org/sjc-12926-tracker/ ACLU Tracking COVID-19 in Massachusetts Prison &amp; Jails Webpage]</ref>
+!width="4%"| Month
+!align="right" width="10%"| Facility Population
+!align="right" width="8%"| Tests (Inmates)
+!align="right" width="13%"| Positive Tests (Inmates)
+!align="right" width="14%"| Cases Per 100000 (Inmates)
+!align="right" width="15%"| Positive Test Rate (Inmates)
+!align="right" width="6%"| Staff Tested
+!align="right" width="12%"| Positive Tests (Staff)
+!align="right" width="11%"| Positive Rate (Staff)
+!align="right" width="3%"| Deaths
+|-
+| Apr 2020
+|align="right"| 130
+|align="right"| 0
+|align="right"| 0
+|align="right"| 0
+|align="right"| **
+|align="right"| 0
+|align="right"| 1
+|align="right"| **
+|align="right"| 0
+|-
+| May 2020
+|align="right"| 112
+|align="right"| 114
+|align="right"| 0
+|align="right"| 0
+|align="right"| 0%
+|align="right"| 3
+|align="right"| 1
+|align="right"| 33.3%
+|align="right"| 0
+|-
+| Jun 2020
+|align="right"| 105
+|align="right"| 0
+|align="right"| 0
+|align="right"| 0
+|align="right"| **
+|align="right"| 4
+|align="right"| 1
+|align="right"| 25.0%
+|align="right"| 0
+|-
+| Jul 2020
+|align="right"| 110
+|align="right"| 48
+|align="right"| 0
+|align="right"| 0
+|align="right"| 0%
+|align="right"| 0
+|align="right"| 0
+|align="right"| **
+|align="right"| 0
+|-
+| Aug 2020
+|align="right"| 116
+|align="right"| 0
+|align="right"| 0
+|align="right"| 0
+|align="right"| **
+|align="right"| 1
+|align="right"| 0
+|align="right"| 0.0%
+|align="right"| 0
+|-
+| Sep 2020
+|align="right"| 124
+|align="right"| 47
+|align="right"| 0
+|align="right"| 0
+|align="right"| 0%
+|align="right"| 0
+|align="right"| 0
+|align="right"| **
+|align="right"| 0
+|-
+| Oct 2020
+|align="right"| 126
+|align="right"| 13
+|align="right"| 0
+|align="right"| 0
+|align="right"| 0%
+|align="right"| 0
+|align="right"| 0
+|align="right"| **
+|align="right"| 0
+|-
+| Nov 2020
+|align="right"| 122
+|align="right"| 22
+|align="right"| 0
+|align="right"| 0
+|align="right"| 0%
+|align="right"| 0
+|align="right"| 0
+|align="right"| **
+|align="right"| 0
+|}
+

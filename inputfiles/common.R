@@ -1,3 +1,5 @@
+# Packages ------------------------------------------------------------------------------
+
 list_packages = c("haven", "tidyverse", "tibble", "ggthemes", "scales", "lubridate", "openxlsx", "bookdown", "janitor","gridExtra","formatR", "tufte")
 new_packages <- list_packages[!(list_packages %in% installed.packages()[,"Package"])]
 if(length(new_packages)) install.packages(new_packages)
@@ -15,11 +17,13 @@ library(formatR)
 library(tufte)
 library(gridExtra)
 library(httr)
+library(rmdwiki)
 library(tidyverse)
 library(zoo)
-library(pander)
-library(reprex)
+#library(pander)
+#library(reprex)
 
-panderOptions("table.split.table", Inf) 
+# Global Values -------------------------------------------------------------------------
 
 current_date = today()
+opts <- options(knitr.kable.NA = "**")

@@ -1,13 +1,11 @@
 ---
 title: "Mass DOC COVID-19 Numbers"
 author: "Daniel P. Scarnecchia"
-date: "`current_date`"
-output:
-  md_document:
-    variant: markdown
+date: "`r current_date`"
+output: mediawiki_document
 ---
 
-```{r setup, include=FALSE}
+```{r echo=FALSE, warning=FALSE, message = FALSE}
 rm(list=ls()) 
 library(fs)
 setwd(path("D:", "Github", "MDOC_COVID"))
@@ -15,7 +13,6 @@ setwd(path("D:", "Github", "MDOC_COVID"))
 # Source Packages and Functions ---------------------------------------------------------
 source(path("inputfiles","common.R"))
 source(path("inputfiles", "functions.R"))
-panderOptions('knitr.auto.asis', FALSE)
 
 # Lookup tables and globals -------------------------------------------------------------
 prison_names = read_csv(path("inputfiles", "inst_name_lkp.csv"))
@@ -24,7 +21,7 @@ tf <- fetch_doc_data(data_url)
 ```
 
 ## Cases
-```{r, mass_doc, results='asis',echo=FALSE, warning=FALSE}
+```{r, mass_doc, results='asis',echo=FALSE, warning=FALSE, message = FALSE}
 knitr::kable(
 mass_doc_cumulative(tf) %>% 
   rename(facility = name_link),
