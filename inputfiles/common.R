@@ -1,6 +1,6 @@
 # Packages ------------------------------------------------------------------------------
 
-list_packages = c("haven", "tidyverse", "tibble", "ggthemes", "scales", "lubridate", "openxlsx", "bookdown", "janitor","gridExtra","formatR", "tufte")
+list_packages = c("haven", "tidyverse", "tibble", "ggthemes", "scales", "lubridate", "openxlsx", "bookdown", "janitor","gridExtra","formatR", "tufte","httr","rmdwiki","zoo","readxl")
 new_packages <- list_packages[!(list_packages %in% installed.packages()[,"Package"])]
 if(length(new_packages)) install.packages(new_packages)
 
