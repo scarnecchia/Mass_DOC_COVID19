@@ -3,9 +3,7 @@ title: "`r sprintf('Mass %s COVID-19 Numbers', params$variable_1)`"
 date: "`r today()`"
 params:
   fac: "fac"
-output:
-  html_document:
-    keep_md: true
+output: md_document
 ---
 ```{r echo=FALSE, warning=FALSE, message = FALSE}
 library(fs)
